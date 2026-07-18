@@ -1,0 +1,144 @@
+// Query 1
+db.students.find()
+
+// Query 2
+db.students.find({}, { name: 1, _id: 0 })
+
+// Query 3
+db.students.find({ dept_name: "Comp. Sci." })
+
+// Query 4
+db.students.find({ tot_cred: { $gt: 50 } })
+
+// Query 5
+db.instructors.find({ salary: { $gt: 80000 } })
+
+// Query 6
+db.instructors.find({ dept_name: "Finance" })
+
+// Query 7
+db.courses.find({ credits: 3 })
+
+// Query 8
+db.departments.find({ budget: { $gt: 90000 } })
+
+// Query 9
+db.students.find({ tot_cred: { $gte: 40, $lte: 100 } })
+
+// Query 10
+db.students.find({ dept_name: { $ne: "Biology" } })
+
+// Query 11
+db.students.find({ name: /^B/ })
+
+// Query 12
+db.students.find({ name: /an/ })
+
+// Query 13
+db.students.find().sort({ tot_cred: 1 })
+
+// Query 14
+db.instructors.find().sort({ salary: -1 })
+
+// Query 15
+db.instructors.find({}, { name: 1, salary: 1, _id: 0 })
+
+// Query 16
+db.students.find().limit(3)
+
+// Query 17
+db.students.countDocuments()
+
+// Query 18
+db.students.countDocuments({ dept_name: "Comp. Sci." })
+
+// Query 19
+db.instructors.find().sort({ salary: -1 }).limit(1)
+
+// Query 20
+db.instructors.find().sort({ salary: 1 }).limit(1)
+
+// Query 21
+db.instructors.aggregate([
+{
+    $group: {
+        _id: null,
+        averageSalary: { $avg: "$salary" }
+    }
+}
+])
+
+// Query 22
+db.departments.aggregate([
+{
+    $group: {
+        _id: null,
+        totalBudget: { $sum: "$budget" }
+    }
+}
+])
+
+// Query 23
+db.instructors.aggregate([
+{
+    $group: {
+        _id: "$dept_name",
+        count: { $sum: 1 }
+    }
+}
+])
+
+// Query 24
+db.instructors.aggregate([
+{
+    $group: {
+        _id: "$dept_name",
+        avgSalary: { $avg: "$salary" }
+    }
+}
+])
+
+// Query 25
+db.instructors.updateMany(
+{},
+{
+    $mul: { salary: 1.05 }
+}
+)
+
+// Query 26
+db.instructors.updateMany(
+{ dept_name: "Comp. Sci." },
+{
+    $mul: { salary: 1.10 }
+}
+)
+
+// Query 27
+db.students.updateOne(
+{ name: "Zhang" },
+{
+    $set: { name: "Zhang Wei" }
+}
+)
+
+// Query 28
+db.students.updateOne(
+{ name: "Brown" },
+{
+    $set: { tot_cred: 80 }
+}
+)
+
+// Query 29
+db.students.deleteOne({ name: "Brown" })
+
+// Query 30
+db.students.deleteMany({
+    tot_cred: { $lt: 40 }
+})
+
+// Query 31
+db.departments.deleteOne({
+    dept_name: "Finance"
+})
