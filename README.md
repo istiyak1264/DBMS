@@ -1,5 +1,1 @@
-# DBMS
-# DBMS
-# DBMS
-# DBMS
-# DBMS
+#This repository is created for Database Management Systems course
