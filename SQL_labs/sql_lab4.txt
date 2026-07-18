@@ -1,0 +1,65 @@
+-- Query 1
+SELECT ProductName, Unit, Price
+FROM Product;
+
+-- Query 2
+SELECT CategoryID, CategoryName
+FROM Category
+WHERE Description LIKE '%Soft drinks%';
+
+-- Query 3
+SELECT ProductName
+FROM Product
+WHERE Price < 15.00;
+
+-- Query 4
+SELECT FirstName, LastName, City
+FROM Employee
+WHERE Title = 'Sales Rep';
+
+-- Query 5
+SELECT ProductName, Price
+FROM Product
+WHERE SupplierID = 1
+  AND Price > 18.00;
+
+-- Query 6
+SELECT CompanyName
+FROM Customer
+WHERE Country = 'Germany'
+   OR Country = 'Mexico';
+
+-- Query 7
+SELECT CompanyName, Country
+FROM Customer
+WHERE Country <> 'UK';
+
+-- Query 8
+SELECT OrderID, CustomerID
+FROM Orders
+WHERE OrderDate >= '2025-07-05';
+
+-- Query 9
+SELECT Product.ProductName,
+       Category.CategoryName
+FROM Product, Category
+WHERE Product.CategoryID = Category.CategoryID;
+
+-- Query 10
+SELECT Product.ProductName,
+       Supplier.City
+FROM Product, Supplier
+WHERE Product.SupplierID = Supplier.SupplierID;
+
+-- Query 11
+SELECT Orders.OrderID,
+       Employee.LastName
+FROM Orders, Employee
+WHERE Orders.EmployeeID = Employee.EmployeeID;
+
+-- Query 12
+SELECT Product.ProductName,
+       Category.CategoryName
+FROM Product, Category
+WHERE Product.CategoryID = Category.CategoryID
+  AND Category.CategoryName <> 'Seafood';

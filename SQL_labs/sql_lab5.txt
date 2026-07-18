@@ -1,0 +1,93 @@
+-- Query 1
+SELECT name
+FROM instructor
+WHERE name LIKE '%an%';
+
+-- Query 2
+SELECT ID, course_id
+FROM takes
+WHERE grade IS NULL;
+
+-- Query 3
+SELECT dept_name, COUNT(*) AS instructor_count
+FROM instructor
+GROUP BY dept_name;
+
+-- Query 4
+SELECT dept_name, AVG(salary) AS avg_salary
+FROM instructor
+GROUP BY dept_name;
+
+-- Query 5
+SELECT dept_name
+FROM instructor
+GROUP BY dept_name
+HAVING AVG(salary) > 70000;
+
+-- Query 6
+SELECT course_id
+FROM section
+WHERE semester = 'Fall'
+  AND year = 2024
+INTERSECT
+SELECT course_id
+FROM section
+WHERE semester = 'Spring'
+  AND year = 2025;
+
+-- Query 7
+SELECT course_id
+FROM section
+WHERE semester = 'Fall'
+  AND year = 2024
+EXCEPT
+SELECT course_id
+FROM section
+WHERE semester = 'Spring'
+  AND year = 2025;
+
+-- Query 8
+SELECT name
+FROM instructor
+UNION
+SELECT name
+FROM student;
+
+-- Query 9
+SELECT name
+FROM instructor
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM instructor
+);
+
+-- Query 10
+SELECT name
+FROM instructor
+WHERE salary > SOME (
+    SELECT salary
+    FROM instructor
+    WHERE dept_name = 'Biology'
+);
+
+-- Query 11
+SELECT name
+FROM student
+WHERE ID IN (
+    SELECT ID
+    FROM takes
+    WHERE course_id = 'CS-101'
+);
+
+-- Query 12
+INSERT INTO instructor
+VALUES ('99999', 'Mozart', 'Music', 50000);
+
+-- Query 13
+UPDATE instructor
+SET salary = salary * 1.05
+WHERE dept_name = 'Comp. Sci.';
+
+-- Query 14
+DELETE FROM student
+WHERE tot_cred < 40;

@@ -1,0 +1,73 @@
+-- Query 1
+SELECT name, dept_name
+FROM instructor;
+
+-- Query 2
+SELECT name
+FROM instructor
+WHERE salary > 70000;
+
+-- Query 3
+SELECT name, tot_cred
+FROM student
+WHERE dept_name = 'Comp. Sci.';
+
+-- Query 4
+SELECT title, credits
+FROM course
+WHERE credits = 3;
+
+-- Query 5
+SELECT name, salary
+FROM instructor
+WHERE dept_name = 'Finance'
+  AND salary > 80000;
+
+-- Query 6
+SELECT name
+FROM instructor
+WHERE dept_name <> 'Comp. Sci.';
+
+-- Query 7
+SELECT instructor.name,
+       department.dept_name,
+       department.budget
+FROM instructor, department
+WHERE instructor.dept_name = department.dept_name;
+
+-- Query 8
+SELECT s_ID
+FROM advisor
+WHERE i_ID = '10101';
+
+-- Query 9
+SELECT student.name,
+       takes.course_id
+FROM student, takes
+WHERE student.ID = takes.ID;
+
+-- Query 10
+SELECT DISTINCT instructor.name
+FROM instructor, teaches, section
+WHERE instructor.ID = teaches.ID
+  AND teaches.course_id = section.course_id
+  AND teaches.sec_id = section.sec_id
+  AND teaches.semester = section.semester
+  AND teaches.year = section.year
+  AND section.building = 'Taylor';
+
+-- Query 11
+SELECT c.title AS course_title,
+       p.title AS prereq_title
+FROM course AS c, course AS p, prereq
+WHERE c.course_id = prereq.course_id
+  AND p.course_id = prereq.prereq_id;
+
+-- Query 12
+SELECT name
+FROM instructor
+WHERE salary > (
+    SELECT salary
+    FROM instructor
+    WHERE name = 'Einstein'
+);

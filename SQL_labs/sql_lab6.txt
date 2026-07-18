@@ -1,0 +1,103 @@
+-- Query 1
+SELECT name
+FROM student
+WHERE ID NOT IN (
+    SELECT ID
+    FROM takes
+);
+
+-- Query 2
+SELECT SUM(credits) AS total_credits
+FROM course
+WHERE dept_name = 'Comp. Sci.';
+
+-- Query 3
+UPDATE department
+SET budget = budget * 0.95;
+
+-- Query 4
+DELIMITER $$
+
+CREATE PROCEDURE get_dept_instructors(
+    IN dept VARCHAR(20)
+)
+BEGIN
+    SELECT ID, name
+    FROM instructor
+    WHERE dept_name = dept;
+END$$
+
+DELIMITER ;
+
+-- Example
+CALL get_dept_instructors('Comp. Sci.');
+
+-- Query 5
+DELIMITER $$
+
+CREATE PROCEDURE register_student(
+    IN p_student_id VARCHAR(5),
+    IN p_course_id VARCHAR(8),
+    IN p_sec_id VARCHAR(8),
+    IN p_semester VARCHAR(6),
+    IN p_year NUMERIC(4,0)
+)
+BEGIN
+    INSERT INTO takes
+    VALUES (
+        p_student_id,
+        p_course_id,
+        p_sec_id,
+        p_semester,
+        p_year,
+        NULL
+    );
+END$$
+
+DELIMITER ;
+
+-- Test
+CALL register_student(
+    '00128',
+    'CS-101',
+    '1',
+    'Fall',
+    2024
+);
+
+-- Query 6
+DELIMITER $$
+
+CREATE TRIGGER check_salary
+BEFORE INSERT ON instructor
+FOR EACH ROW
+BEGIN
+    IF NEW.salary > 150000 THEN
+        SET NEW.salary = 150000;
+    END IF;
+END$$
+
+DELIMITER ;
+
+-- Query 7
+DELIMITER $$
+
+CREATE TRIGGER update_tot_cred
+AFTER UPDATE ON takes
+FOR EACH ROW
+BEGIN
+    IF OLD.grade IS NULL
+       AND NEW.grade IN ('A', 'B', 'C') THEN
+
+        UPDATE student
+        SET tot_cred = tot_cred + (
+            SELECT credits
+            FROM course
+            WHERE course.course_id = NEW.course_id
+        )
+        WHERE ID = NEW.ID;
+
+    END IF;
+END$$
+
+DELIMITER ;
